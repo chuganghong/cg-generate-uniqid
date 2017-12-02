@@ -96,7 +96,7 @@ class GlobalIdGenerator
 	{
 		$timestamp = microtime();
 		list($msec, $sec) = explode(' ', $timestamp);
-		$reservePart = sprintf("%03d", $msec * 1000);
+		$reservePart = sprintf("%05d", $msec * 100000);
 
 		return $reservePart;
 	}
