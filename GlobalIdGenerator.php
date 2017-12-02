@@ -47,7 +47,7 @@ class GlobalIdGenerator
 		$timestamp = microtime();
 		$timestampArr = explode(' ', $timestamp);		
 		list($msec, $second) = $timestampArr;
-		$msecTimestamp = sprintf("%d%03d", $second, $msec * 1000);	
+		$msecTimestamp = sprintf("%d%05d", $second, $msec * 100000);	
 		/*
 		$msecTimestamp = $second * 1000;
 		var_dump($second, $msec, $msecTimestamp);
@@ -94,10 +94,12 @@ class GlobalIdGenerator
 
 	private function generateReservePart()
 	{
+		/*
 		$timestamp = microtime();
 		list($msec, $sec) = explode(' ', $timestamp);
 		$reservePart = sprintf("%05d", $msec * 100000);
-
+		*/
+		$reservePart = '';
 		return $reservePart;
 	}
 
