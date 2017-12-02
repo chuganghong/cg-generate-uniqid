@@ -35,7 +35,7 @@ class GlobalIdGenerator
 		$reservePart = $this->generateReservePart($reserveId);
 		$genPart = $this->generateGenPart($value);
 
-		var_dump($timestampPart, $servicePart, $engineRoomPart, $computerPart, $reservePart, $genPart);
+		// var_dump($timestampPart, $servicePart, $engineRoomPart, $computerPart, $reservePart, $genPart);
 
 		$globalId = $timestampPart . $servicePart . $engineRoomPart . $computerPart . $reservePart . $genPart;
 
@@ -47,59 +47,71 @@ class GlobalIdGenerator
 		$timestamp = microtime();
 		$timestampArr = explode(' ', $timestamp);		
 		list($msec, $second) = $timestampArr;
-		// $msecTimestamp = sprintf("%d%03d", $second, $msec * 1000);	
+		$msecTimestamp = sprintf("%d%03d", $second, $msec * 1000);	
+		/*
 		$msecTimestamp = $second * 1000;
 		var_dump($second, $msec, $msecTimestamp);
 		$msecTimestampDecbin = decbin($msecTimestamp);
 		$timestampPart = sprintf("%041d", $msecTimestampDecbin);	
-
+		*/
+		$timestampPart = $msecTimestamp;
 		return $timestampPart;
 	}
 
 	private function generateServicePart($serviceId)
 	{
+		/*
 		$serviceIdDecbin = decbin($serviceId);
 		$bits = $this->servicePartBit;		
 		$servicePart = sprintf("%0{$bits}d", $serviceIdDecbin);
-
+		*/
+		$servicePart = $serviceId;
 		return $servicePart;
 	}
 
 	private function generateEngineRoomPart($engineRoomId)
 	{
+		/*
 		$engineRoomIdDecbin = decbin($engineRoomId);
 		$bits = $this->engineRoomPartBit;
 		$engineRoomPart = sprintf("%0{$bits}d", $engineRoomIdDecbin);
+		*/
 
+		$engineRoomPart = $engineRoomId;
 		return $engineRoomPart;
 	}
 
 	private function generateComputerPart($computerId)
 	{
+		/*
 		$computerIdDecbin = decbin($computerId);
 		$bits = $this->computerPartBit;
 		$computerPart = sprintf("%0{$bits}d", $computerIdDecbin);
-
+		*/
+		$computerPart = $computerId;
 		return $computerPart;
 	}
 
-	private function generateReservePart($reserveId)
+	private function generateReservePart()
 	{
-		$reverseIdDecbin = decbin($reserveId);
-		$bits = $this->reservePartBit;
-		$reservePart = sprintf("%0{$bits}d", $reverseIdDecbin);
+		$timestamp = microtime();
+		list($msec, $sec) = explode(' ', $timestamp);
+		$reservePart = sprintf("%03d", $msec * 1000);
 
 		return $reservePart;
 	}
 
 	private function generateGenPart($value)
 	{
-		$md5Str = md5($value, true);
-		$suffix = substr($md5Str, -1, 3);
-
+		$md5Str = md5($value);
+		$suffix = substr($md5Str, -1, 1);		
+		/*
 		$genBits = 3;
 		$genDecbin = decbin($suffix);
 		$genPart = sprintf("%0{$genBits}d", $genDecbin);
+		*/
+		$genPart = hexdec($suffix);
+		$genPart = substr($genPart, -1, 1);		
 
 		return $genPart;
 	}
